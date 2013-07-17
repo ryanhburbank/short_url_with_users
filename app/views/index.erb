@@ -1,0 +1,39 @@
+
+<div class="container">
+  <h1>login tests</h1>
+
+<% if @error %>
+  <div class="error">
+    <%= @error %>
+  </div>
+<% end %>
+
+<br>
+  <table>
+      <form action="/user" method="POST">
+        <tr>login here</tr>
+        <br>
+        <label for="email">Email: </label>
+        <input id="email" type="text" name="user[email]">
+        <br>
+        <label for="password">Password:</label>
+        <input id="password" type="text" name="user[password]">
+        <br>  
+        <input type="submit" value="Login">
+      <br>
+      <br>
+      </form>
+      <form action="/create/user" method="POST"> 
+        <tr>create account here</tr>
+        <br>
+        <label for="email">Email: </label>
+        <input id="email" type="text" name="user[email]">
+        <br>
+        <label for="password">Password:</label>
+        <input id="password" type="text" name="user[password]">
+        <br>
+        
+        <input type="submit" value="Create">
+      </form>
+  </table>
+</div>
