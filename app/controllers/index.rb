@@ -1,7 +1,6 @@
 get '/' do
+  @urls = Url.nil_urls
   erb :index
-  # This page has create account in erb and login
-  # let's do two separate forms
 end
 
 post '/user' do
@@ -24,7 +23,8 @@ end
 
 get '/secret' do
   if session[:id]
-    erb :secret
+    @urls = Url.where("user_id = #{session[:id]}")
+    erb :index
   else
     @error = "you must be logged in to view the secret page"
     erb :index
@@ -36,3 +36,20 @@ post '/secret' do
   redirect ("/")
 end
  #want to try the use you created in console?
+
+ post '/urls' do
+  @url = Url.new(params[:url])
+  @url.short_url = Url.shorten
+  @url.user_id = session[:id]|| nil
+  @url.save
+  redirect to ("/")
+end
+
+# e.g., /q6bda
+get '/:short_url' do
+  @short_url = params[:short_url]
+  @url = Url.find_by_short_url(@short_url)
+  @url.clicks += 1
+  @url.save
+  redirect to ("#{@url.long_url}")
+end

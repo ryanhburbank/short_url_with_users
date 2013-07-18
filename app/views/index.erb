@@ -1,39 +1,79 @@
-
 <div class="container">
-  <h1>login tests</h1>
+  <% if session[:id] %>
+  <%@current = User.find(session[:id]) %>
+  <h1>Logged in as: <%= @current.email %> </h1>
+  <form action="/secret" method="POST">
+    <input type="submit" value="logout">
+  </form>
+  <% else %>
+  <h1>LOGIN (optional)</h1>
 
-<% if @error %>
+  <% if @error %>
   <div class="error">
     <%= @error %>
   </div>
-<% end %>
+  <% end %>
 
-<br>
+  <br>
   <table>
-      <form action="/user" method="POST">
-        <tr>login here</tr>
-        <br>
-        <label for="email">Email: </label>
-        <input id="email" type="text" name="user[email]">
-        <br>
-        <label for="password">Password:</label>
-        <input id="password" type="text" name="user[password]">
-        <br>  
-        <input type="submit" value="Login">
+    <form action="/user" method="POST">
+      <tr>login here</tr>
+      <br>
+      <label for="email">Email: </label>
+      <input id="email" type="text" name="user[email]">
+      <br>
+      <label for="password">Password:</label>
+      <input id="password" type="text" name="user[password]">
+      <br>  
+      <input type="submit" value="Login">
       <br>
       <br>
-      </form>
-      <form action="/create/user" method="POST"> 
-        <tr>create account here</tr>
-        <br>
-        <label for="email">Email: </label>
-        <input id="email" type="text" name="user[email]">
-        <br>
-        <label for="password">Password:</label>
-        <input id="password" type="text" name="user[password]">
-        <br>
-        
-        <input type="submit" value="Create">
-      </form>
+    </form>
+    <form action="/create/user" method="POST"> 
+      <tr>create account here</tr>
+      <br>
+      <label for="email">Email: </label>
+      <input id="email" type="text" name="user[email]">
+      <br>
+      <label for="password">Password:</label>
+      <input id="password" type="text" name="user[password]">
+      <br>
+
+      <input type="submit" value="Create">
+    </form>
   </table>
 </div>
+<br>
+<br>
+<% end %>
+
+<h1>URL Shortner</h1>
+<table>
+  <form action="/urls" method="POST">
+    <label for="long_url">Put ur shitty url here:</label>
+    <input id="long_url" type="text" name="url[long_url]">
+    <input type="submit" value="click here for awesomeness">
+  </form>
+</table>
+<br>
+<table>
+  <thead>
+    <th>Long URL</th>
+    <th>Short URL</th>
+    <th>Clicks</th>
+  </thead>
+  <tbody>
+    <% if @urls %>
+      <% @urls.each do |url| %>
+        <tr>
+          <td><%= url.long_url %></td>
+          <td><a href="/<%=url.short_url%>"><%= url.short_url %></a></td>
+          <td><%= url.clicks %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+
